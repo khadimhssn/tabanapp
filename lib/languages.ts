@@ -1,0 +1,252 @@
+// ============================================
+// lib/languages.ts — Taban Language System
+// ============================================
+
+export type LangCode = 'en' | 'fa' | 'ps' | 'ur' | 'ar' | 'hi';
+
+export interface LangConfig {
+  code: LangCode;
+  name: string;
+  nameEnglish: string;
+  dir: 'rtl' | 'ltr';
+  fontClass: string;
+  ttsVoice: string;
+  flag: string;
+  dialectNotes: string;
+}
+
+export const SUPPORTED_LANGUAGES: Record<LangCode, LangConfig> = {
+  en: {
+    code: 'en',
+    name: 'English',
+    nameEnglish: 'English',
+    dir: 'ltr',
+    fontClass: 'font-english',
+    ttsVoice: 'en-US-JennyNeural',
+    flag: '🇺🇸',
+    dialectNotes: 'Standard American English.',
+  },
+  fa: {
+    code: 'fa',
+    name: 'فارسی / دری',
+    nameEnglish: 'Dari / Farsi',
+    dir: 'rtl',
+    fontClass: 'font-dari',
+    ttsVoice: 'fa-IR-DilaraNeural',
+    flag: '🇦🇫',
+    dialectNotes: 'Use Dari vocabulary where it differs from Iranian Farsi.',
+  },
+  ps: {
+    code: 'ps',
+    name: 'پښتو',
+    nameEnglish: 'Pashto',
+    dir: 'rtl',
+    fontClass: 'font-dari',
+    ttsVoice: 'fa-IR-DilaraNeural', // Fallback — no native Pashto TTS
+    flag: '🇦🇫',
+    dialectNotes: 'Use standard Pashto with Pashto script.',
+  },
+  ur: {
+    code: 'ur',
+    name: 'اردو',
+    nameEnglish: 'Urdu',
+    dir: 'rtl',
+    fontClass: 'font-urdu',
+    ttsVoice: 'ur-PK-UzmaNeural',
+    flag: '🇵🇰',
+    dialectNotes: 'Use standard Pakistani Urdu.',
+  },
+  ar: {
+    code: 'ar',
+    name: 'العربية',
+    nameEnglish: 'Arabic',
+    dir: 'rtl',
+    fontClass: 'font-arabic',
+    ttsVoice: 'ar-SA-ZariyahNeural',
+    flag: '🇸🇦',
+    dialectNotes: 'Use Modern Standard Arabic (فصحى).',
+  },
+  hi: {
+    code: 'hi',
+    name: 'हिन्दी',
+    nameEnglish: 'Hindi',
+    dir: 'ltr',
+    fontClass: 'font-hindi',
+    ttsVoice: 'hi-IN-SwaraNeural',
+    flag: '🇮🇳',
+    dialectNotes: 'Use शुद्ध Hindi with Devanagari script.',
+  },
+};
+
+export const RTL_LANGUAGES: LangCode[] = ['fa', 'ps', 'ur', 'ar'];
+export const LTR_LANGUAGES: LangCode[] = ['en', 'hi'];
+export const ALL_LANG_CODES: LangCode[] = ['en', 'fa', 'ps', 'ur', 'ar', 'hi'];
+export const DEFAULT_LANG: LangCode = 'fa';
+
+export function isRTL(lang: LangCode): boolean {
+  return RTL_LANGUAGES.includes(lang);
+}
+
+export function getLangConfig(lang: string): LangConfig {
+  return SUPPORTED_LANGUAGES[lang as LangCode] || SUPPORTED_LANGUAGES.fa;
+}
+
+// UI strings per language
+export const UI_STRINGS: Record<LangCode, Record<string, string>> = {
+  en: {
+    appName: 'Taban',
+    tagline: 'Read any book in 10 minutes',
+    discover: 'Discover',
+    books: 'Books',
+    categories: 'Categories',
+    search: 'Search',
+    library: 'My Library',
+    keyTakeaways: '12 Key Takeaways',
+    whoShouldRead: 'Who should read this?',
+    readSummary: 'Read Summary',
+    listenNow: 'Listen Now',
+    save: 'Save',
+    saved: 'Saved',
+    searchPlaceholder: 'Search books, authors...',
+    noResults: 'No results found',
+    loading: 'Loading...',
+    requestBook: 'Request this book',
+    generatingSummary: 'Generating summary...',
+    swipeRight: 'Interested',
+    swipeLeft: 'Skip',
+    allBooks: 'All Books',
+    popular: 'Popular',
+    newest: 'Newest',
+    minutes: 'min read',
+  },
+  fa: {
+    appName: 'تابان',
+    tagline: 'هر کتاب را در ۱۰ دقیقه بخوانید',
+    discover: 'کشف',
+    books: 'کتاب‌ها',
+    categories: 'دسته‌بندی‌ها',
+    search: 'جستجو',
+    library: 'کتابخانه من',
+    keyTakeaways: '۱۲ نکته کلیدی',
+    whoShouldRead: 'این کتاب مناسب چه کسانی است؟',
+    readSummary: 'خواندن خلاصه',
+    listenNow: 'گوش دادن',
+    save: 'ذخیره',
+    saved: 'ذخیره شد',
+    searchPlaceholder: 'جستجوی کتاب، نویسنده...',
+    noResults: 'نتیجه‌ای یافت نشد',
+    loading: 'در حال بارگذاری...',
+    requestBook: 'درخواست این کتاب',
+    generatingSummary: 'در حال ساخت خلاصه...',
+    swipeRight: 'علاقه‌مندم',
+    swipeLeft: 'رد شو',
+    allBooks: 'همه کتاب‌ها',
+    popular: 'محبوب',
+    newest: 'جدیدترین',
+    minutes: 'دقیقه',
+  },
+  ps: {
+    appName: 'تابان',
+    tagline: 'هر کتاب په ۱۰ دقیقو کې ولولئ',
+    discover: 'کشف',
+    books: 'کتابونه',
+    categories: 'کټګورۍ',
+    search: 'لټون',
+    library: 'زما کتابتون',
+    keyTakeaways: '۱۲ کلیدي ټکي',
+    whoShouldRead: 'دا کتاب د چا لپاره مناسب دی؟',
+    readSummary: 'لنډیز ولولئ',
+    listenNow: 'اوس واورئ',
+    save: 'خوندي کړئ',
+    saved: 'خوندي شو',
+    searchPlaceholder: 'کتاب، لیکوال ولټوئ...',
+    noResults: 'پایله ونه موندل شوه',
+    loading: 'بار کیږي...',
+    requestBook: 'دا کتاب وغواړئ',
+    generatingSummary: 'لنډیز جوړیږي...',
+    swipeRight: 'لیوالتیا',
+    swipeLeft: 'تیر شه',
+    allBooks: 'ټول کتابونه',
+    popular: 'مشهور',
+    newest: 'نوي',
+    minutes: 'دقیقې',
+  },
+  ur: {
+    appName: 'تابان',
+    tagline: 'کوئی بھی کتاب ۱۰ منٹ میں پڑھیں',
+    discover: 'دریافت',
+    books: 'کتابیں',
+    categories: 'زمرے',
+    search: 'تلاش',
+    library: 'میری لائبریری',
+    keyTakeaways: '۱۲ اہم نکات',
+    whoShouldRead: 'یہ کتاب کس کے لیے ہے؟',
+    readSummary: 'خلاصہ پڑھیں',
+    listenNow: 'ابھی سنیں',
+    save: 'محفوظ',
+    saved: 'محفوظ ہو گیا',
+    searchPlaceholder: 'کتاب، مصنف تلاش کریں...',
+    noResults: 'کوئی نتیجہ نہیں ملا',
+    loading: 'لوڈ ہو رہا ہے...',
+    requestBook: 'اس کتاب کی درخواست',
+    generatingSummary: 'خلاصہ بنایا جا رہا ہے...',
+    swipeRight: 'دلچسپی',
+    swipeLeft: 'چھوڑیں',
+    allBooks: 'تمام کتابیں',
+    popular: 'مقبول',
+    newest: 'نئی',
+    minutes: 'منٹ',
+  },
+  ar: {
+    appName: 'تابان',
+    tagline: 'اقرأ أي كتاب في ١٠ دقائق',
+    discover: 'اكتشف',
+    books: 'الكتب',
+    categories: 'التصنيفات',
+    search: 'بحث',
+    library: 'مكتبتي',
+    keyTakeaways: '١٢ نقطة رئيسية',
+    whoShouldRead: 'لمن هذا الكتاب؟',
+    readSummary: 'اقرأ الملخص',
+    listenNow: 'استمع الآن',
+    save: 'حفظ',
+    saved: 'تم الحفظ',
+    searchPlaceholder: 'ابحث عن كتاب، مؤلف...',
+    noResults: 'لم يتم العثور على نتائج',
+    loading: 'جاري التحميل...',
+    requestBook: 'اطلب هذا الكتاب',
+    generatingSummary: 'جاري إنشاء الملخص...',
+    swipeRight: 'مهتم',
+    swipeLeft: 'تخطي',
+    allBooks: 'جميع الكتب',
+    popular: 'الأكثر شعبية',
+    newest: 'الأحدث',
+    minutes: 'دقائق',
+  },
+  hi: {
+    appName: 'ताबान',
+    tagline: 'कोई भी किताब 10 मिनट में पढ़ें',
+    discover: 'खोजें',
+    books: 'किताबें',
+    categories: 'श्रेणियाँ',
+    search: 'खोज',
+    library: 'मेरी लाइब्रेरी',
+    keyTakeaways: '12 मुख्य बिंदु',
+    whoShouldRead: 'यह किताब किसके लिए है?',
+    readSummary: 'सारांश पढ़ें',
+    listenNow: 'अभी सुनें',
+    save: 'सहेजें',
+    saved: 'सहेजा गया',
+    searchPlaceholder: 'किताब, लेखक खोजें...',
+    noResults: 'कोई परिणाम नहीं मिला',
+    loading: 'लोड हो रहा है...',
+    requestBook: 'इस किताब का अनुरोध करें',
+    generatingSummary: 'सारांश बनाया जा रहा है...',
+    swipeRight: 'रुचि',
+    swipeLeft: 'छोड़ें',
+    allBooks: 'सभी किताबें',
+    popular: 'लोकप्रिय',
+    newest: 'नवीनतम',
+    minutes: 'मिनट',
+  },
+};
